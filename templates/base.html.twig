@@ -3,10 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
     </head>
     <body>
+        {# read and display just one flash message type #}
+        <div class="container">
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}        
+        </div>        
+        
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <nav>
+        <a href="{{ path('homepage') }}">Accueil</a>
+        <a href="{{ path('public') }}">Page publique</a>
+        <a href="{{ path('private') }}">Page privée</a>
+        </nav>
+        {% endif %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
     </body>
 </html>
